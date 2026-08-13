@@ -5,7 +5,10 @@ import AdminDashboard from './pages/AdminDashboard';
 import StudentDashboard from './pages/StudentDashboard';
 import QuizManagement from './pages/QuizManagement';
 import QuestionManagement from './pages/QuestionManagement';
-
+import QuizBrowse from './pages/QuizBrowse';
+import QuizDetails from './pages/QuizDetails';
+import TakeQuiz from './pages/TakeQuiz';
+import QuizResult from './pages/QuizResult';
 function App() {
   return (
     <BrowserRouter>
@@ -17,7 +20,11 @@ function App() {
         <Route path="/admin/quizzes" element={<QuizManagement />} />
         <Route path="/admin/quizzes/:quizId/questions" element={<QuestionManagement />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
+        <Route path="/student/quizzes" element={<QuizBrowse />} />
+        <Route path="/student/quizzes/:id" element={<QuizDetails />} />
+        <Route path="/student/quizzes/:id/take" element={<TakeQuiz />} />
       </Routes>
+      <Route path="/student/result/:attemptId" element={<QuizResult />} />
     </BrowserRouter>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/axios';
 
 function StudentDashboard() {
@@ -46,12 +46,12 @@ function StudentDashboard() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FAFAF9' }}>
       <div className="flex items-center justify-between px-8 py-5 border-b" style={{ borderColor: '#E2E8F0' }}>
-        <h1
-          className="text-xl font-bold"
-          style={{ fontFamily: "'Space Grotesk', sans-serif", color: '#312E81' }}
-        >
-          Quiz Platform
-        </h1>
+        <div className="flex items-center gap-6">
+  <h1 className="text-xl font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif", color: '#312E81' }}>
+    Quiz Platform
+  </h1>
+  <Link to="/student/quizzes" className="text-sm font-medium" style={{ color: '#334155' }}>Quizzes</Link>
+</div>
         <button
           onClick={handleLogout}
           className="text-sm font-medium px-4 py-2 rounded-lg"
