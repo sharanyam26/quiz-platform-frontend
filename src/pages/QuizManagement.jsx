@@ -172,6 +172,7 @@ function QuizManagement() {
                 >
                   {quiz.status}
                 </span>
+                <Link to="/admin/categories" className="text-sm font-medium" style={{ color: '#334155' }}>Categories</Link>
                 <Link to={`/admin/quizzes/${quiz.id}/questions`} className="text-sm font-medium" style={{ color: '#312E81' }}>
                   Questions
                 </Link>

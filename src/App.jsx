@@ -10,6 +10,7 @@ import QuizDetails from './pages/QuizDetails';
 import TakeQuiz from './pages/TakeQuiz';
 import QuizResult from './pages/QuizResult';
 import Leaderboard from './pages/Leaderboard';
+import CategoryManagement from './pages/CategoryManagement';
 function App() {
   return (
     <BrowserRouter>
@@ -26,7 +27,8 @@ function App() {
         <Route path="/student/quizzes/:id/take" element={<TakeQuiz />} />
         <Route path="/student/result/:attemptId" element={<QuizResult />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
-      </Routes>
+        <Route path="/admin/categories" element={<CategoryManagement />} />
+        </Routes>
       
       
     </BrowserRouter>
