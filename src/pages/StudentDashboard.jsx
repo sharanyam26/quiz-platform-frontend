@@ -51,6 +51,7 @@ function StudentDashboard() {
     Quiz Platform
   </h1>
   <Link to="/student/quizzes" className="text-sm font-medium" style={{ color: '#334155' }}>Quizzes</Link>
+  <Link to="/leaderboard" className="text-sm font-medium" style={{ color: '#334155' }}>Leaderboard</Link>
 </div>
         <button
           onClick={handleLogout}
