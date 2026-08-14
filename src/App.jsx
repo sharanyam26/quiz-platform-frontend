@@ -11,6 +11,8 @@ import TakeQuiz from './pages/TakeQuiz';
 import QuizResult from './pages/QuizResult';
 import Leaderboard from './pages/Leaderboard';
 import CategoryManagement from './pages/CategoryManagement';
+import UserManagement from './pages/UserManagement';
+import AdminAnalytics from './pages/AdminAnalytics';
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +30,8 @@ function App() {
         <Route path="/student/result/:attemptId" element={<QuizResult />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/admin/categories" element={<CategoryManagement />} />
+        <Route path="/admin/users" element={<UserManagement />} />
+        <Route path="/admin/analytics" element={<AdminAnalytics />} />
         </Routes>
       
       
