@@ -13,6 +13,7 @@ import Leaderboard from './pages/Leaderboard';
 import CategoryManagement from './pages/CategoryManagement';
 import UserManagement from './pages/UserManagement';
 import AdminAnalytics from './pages/AdminAnalytics';
+import AttemptHistory from './pages/AttemptHistory';
 function App() {
   return (
     <BrowserRouter>
@@ -32,6 +33,7 @@ function App() {
         <Route path="/admin/categories" element={<CategoryManagement />} />
         <Route path="/admin/users" element={<UserManagement />} />
         <Route path="/admin/analytics" element={<AdminAnalytics />} />
+        <Route path="/student/attempts" element={<AttemptHistory />} />
         </Routes>
       
       
