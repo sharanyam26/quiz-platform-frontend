@@ -67,16 +67,15 @@ function QuizManagement() {
     <div className="min-h-screen" style={{ backgroundColor: '#FAFAF9' }}>
       <div className="flex items-center justify-between px-8 py-5 border-b" style={{ borderColor: '#E2E8F0' }}>
         <div className="flex items-center gap-6">
-          <h1 className="text-xl font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif", color: '#312E81' }}>
-            Quiz Platform · Admin
-          </h1>
-          <Link to="/admin/dashboard" className="text-sm font-medium" style={{ color: '#334155' }}>
-            Dashboard
-          </Link>
-          <span className="text-sm font-medium" style={{ color: '#F59E0B' }}>
-            Quizzes
-          </span>
-        </div>
+  <h1 className="text-xl font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif", color: '#312E81' }}>
+    Quiz Platform · Admin
+  </h1>
+  <Link to="/admin/dashboard" className="text-sm font-medium" style={{ color: '#334155' }}>Dashboard</Link>
+  <span className="text-sm font-medium" style={{ color: '#F59E0B' }}>Quizzes</span>
+  <Link to="/admin/categories" className="text-sm font-medium" style={{ color: '#334155' }}>Categories</Link>
+  <Link to="/admin/users" className="text-sm font-medium" style={{ color: '#334155' }}>Students</Link>
+  <Link to="/admin/analytics" className="text-sm font-medium" style={{ color: '#334155' }}>Analytics</Link>
+</div>
         <button
           onClick={() => setShowForm(!showForm)}
           className="text-sm font-medium px-4 py-2 rounded-lg text-white"
@@ -172,9 +171,7 @@ function QuizManagement() {
                 >
                   {quiz.status}
                 </span>
-                <Link to="/admin/categories" className="text-sm font-medium" style={{ color: '#334155' }}>Categories</Link>
-                <Link to="/admin/users" className="text-sm font-medium" style={{ color: '#334155' }}>Students</Link>
-                <Link to="/admin/analytics" className="text-sm font-medium" style={{ color: '#334155' }}>Analytics</Link>
+                
                 <Link to={`/admin/quizzes/${quiz.id}/questions`} className="text-sm font-medium" style={{ color: '#312E81' }}>
                   Questions
                 </Link>
