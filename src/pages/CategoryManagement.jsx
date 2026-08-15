@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/axios';
 
-function UserManagement() {
-  const [users, setUsers] = useState([]);
-  const [search, setSearch] = useState('');
+function CategoryManagement() {
+  const [categories, setCategories] = useState([]);
+  const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const navigate = useNavigate();
 
   const loadData = () => {
-    api.get('/users').then((res) => setUsers(res.data.users));
+    api.get('/categories').then((res) => setCategories(res.data.categories));
   };
 
   useEffect(() => {
@@ -22,31 +24,29 @@ function UserManagement() {
     loadData();
   }, [navigate]);
 
-  const toggleStatus = async (user) => {
-    const newStatus = user.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    setError('');
     try {
-      await api.patch(`/users/${user.id}/status`, { status: newStatus });
+      await api.post('/categories', { name, description });
+      setName('');
+      setDescription('');
+      setShowForm(false);
       loadData();
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to update status');
+      setError(err.response?.data?.error || 'Failed to create category');
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this student? This cannot be undone.')) return;
+    if (!window.confirm('Delete this category?')) return;
     try {
-      await api.delete(`/users/${id}`);
+      await api.delete(`/categories/${id}`);
       loadData();
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to delete user');
+      setError(err.response?.data?.error || 'Failed to delete category');
     }
   };
-
-  const filteredUsers = users.filter(
-    (u) =>
-      u.name.toLowerCase().includes(search.toLowerCase()) ||
-      u.email.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FAFAF9' }}>
@@ -57,59 +57,55 @@ function UserManagement() {
           </h1>
           <Link to="/admin/dashboard" className="text-sm font-medium" style={{ color: '#334155' }}>Dashboard</Link>
           <Link to="/admin/quizzes" className="text-sm font-medium" style={{ color: '#334155' }}>Quizzes</Link>
-          <Link to="/admin/categories" className="text-sm font-medium" style={{ color: '#334155' }}>Categories</Link>
-          <span className="text-sm font-medium" style={{ color: '#F59E0B' }}>Students</span>
+          <span className="text-sm font-medium" style={{ color: '#F59E0B' }}>Categories</span>
         </div>
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className="text-sm font-medium px-4 py-2 rounded-lg text-white"
+          style={{ backgroundColor: '#F59E0B' }}
+        >
+          {showForm ? 'Cancel' : '+ New Category'}
+        </button>
       </div>
 
       <div className="px-8 py-8">
-        <h2 className="text-2xl font-bold mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif", color: '#312E81' }}>
-          Students
-        </h2>
-        <p className="text-sm mb-6" style={{ color: '#334155' }}>Manage registered students.</p>
-
         {error && (
           <div className="mb-6 px-4 py-3 rounded text-sm" style={{ backgroundColor: '#FEF2F2', color: '#B91C1C' }}>
             {error}
           </div>
         )}
 
-        <input
-          placeholder="Search by name or email..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-sm px-4 py-2.5 rounded-lg border mb-6"
-          style={{ borderColor: '#CBD5E1' }}
-        />
+        {showForm && (
+          <form onSubmit={handleCreate} className="mb-8 p-6 rounded-xl border bg-white space-y-4" style={{ borderColor: '#E2E8F0' }}>
+            <div>
+              <label className="block text-sm font-medium mb-1" style={{ color: '#334155' }}>Name</label>
+              <input required value={name} onChange={(e) => setName(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border" style={{ borderColor: '#CBD5E1' }} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1" style={{ color: '#334155' }}>Description</label>
+              <textarea value={description} onChange={(e) => setDescription(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border" style={{ borderColor: '#CBD5E1' }} rows="2" />
+            </div>
+            <button type="submit" className="px-5 py-2.5 rounded-lg font-medium text-white" style={{ backgroundColor: '#312E81' }}>
+              Create Category
+            </button>
+          </form>
+        )}
 
         <div className="space-y-3">
-          {filteredUsers.length === 0 && <p style={{ color: '#64748B' }}>No students found.</p>}
-          {filteredUsers.map((user) => (
-            <div key={user.id} className="flex items-center justify-between p-4 rounded-lg border bg-white" style={{ borderColor: '#E2E8F0' }}>
+          {categories.length === 0 && <p style={{ color: '#64748B' }}>No categories yet.</p>}
+          {categories.map((cat) => (
+            <div key={cat.id} className="flex items-center justify-between p-4 rounded-lg border bg-white" style={{ borderColor: '#E2E8F0' }}>
               <div>
-                <p className="font-medium" style={{ color: '#312E81' }}>{user.name}</p>
-                <p className="text-sm" style={{ color: '#64748B' }}>{user.email}</p>
-                <p className="text-xs" style={{ color: '#94A3B8' }}>
-                  Joined {new Date(user.created_at).toLocaleDateString()}
-                </p>
+                <p className="font-medium" style={{ color: '#312E81' }}>{cat.name}</p>
+                {cat.description && (
+                  <p className="text-sm" style={{ color: '#64748B' }}>{cat.description}</p>
+                )}
               </div>
-              <div className="flex items-center gap-4">
-                <span
-                  className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                  style={{
-                    backgroundColor: user.status === 'ACTIVE' ? '#F0FDF4' : '#F1F5F9',
-                    color: user.status === 'ACTIVE' ? '#15803D' : '#64748B',
-                  }}
-                >
-                  {user.status}
-                </span>
-                <button onClick={() => toggleStatus(user)} className="text-sm font-medium" style={{ color: '#312E81' }}>
-                  {user.status === 'ACTIVE' ? 'Deactivate' : 'Activate'}
-                </button>
-                <button onClick={() => handleDelete(user.id)} className="text-sm font-medium" style={{ color: '#B91C1C' }}>
-                  Delete
-                </button>
-              </div>
+              <button onClick={() => handleDelete(cat.id)} className="text-sm font-medium" style={{ color: '#B91C1C' }}>
+                Delete
+              </button>
             </div>
           ))}
         </div>
@@ -118,4 +114,4 @@ function UserManagement() {
   );
 }
 
-export default UserManagement;
+export default CategoryManagement;
